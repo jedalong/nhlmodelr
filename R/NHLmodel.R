@@ -1,4 +1,30 @@
- 
+# ---- roxygen documentation ----
+#
+#' @title Spatial model for NHL goal scoring probability
+#'
+#' @description
+#'  Calculate spatial probability of NHL goal scoring based on shot location data.
+#'
+#' @details
+#'  Will be expanded later on.
+#'
+#' @param x a dataframe, specifically, ouput from the function \code{shots2model}.
+#' @param ngibbs numeric, number of Gibbs samples to run the model for.
+#' @param burnin numeric, number of Gibbs samples to discard as burn-in.
+#' @param p.max numeric, tuning parameter indicating the maximum probability value at the goal (should be between 0 and 1).
+#' @param inits a dataframe containing values to initiate the Gibbs sampler (see details).
+#' @param outfile output path and filename (.RData) for storing the model results (8 objects; see details).
+#'
+#' @return
+#'  The function returns a dataframe with the posterior mean and variance of the model which can be used to map spatial variation in NHL goal scoring probabilities.
+#'
+# @references
+# @keywords
+# @examples
+#'
+#' @export
+#
+# ---- End of roxygen documentation ----
 #Core model function that can be easily called with a suite of key inputs.
 # This model should be adjusted to allow for testing of alterntive models.
 NHLmodel <- function(x,ngibbs,burnin,p.max,inits,outfile){
