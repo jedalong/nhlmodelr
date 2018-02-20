@@ -1,0 +1,20 @@
+{
+    "collab_server" : "",
+    "contents" : "#NHL Model Processing\ndevtools::install_github('jedalong/nhlmodelr')\n\nshots <- data(shots20112012)\n#===============================\n# PARAMETERS\n#===============================\nngibbs <- 1000\nnburnin <- 500\nyr <- '20112012'\np.vec <- seq(0.2,0.3,0.01)\n\n\n\n\n#cl<-makeCluster(6)\n#registerDoParallel(cl)\n\nx <- read.csv(file.path('D:','ESPN_data','Data','AllData',yr,'ModelShot.csv'))   #Read in the Raw data\n#ERR <- foreach(i=1:length(p.vec),.combine=c) %dopar% {\nERR <- rep(0, length(p.vec))\nfor (i in 1:length(p.vec)){\n  p.max <- p.vec[i]\n  inits <- runif(dim(x)[1],0,p.max)   #Inits are random values\n  setwd(file.path('D:','ESPN_Data','Results',yr))  #output directory\n  outfile <- paste(yr,'_pmax_',p.max,'.RData',sep='')   #output file\n  #RUN THE MODEL\n  t1 <- Sys.time()\n  df <- NHLmodel(x,ngibbs,nburnin,p.max,inits,outfile)\n  t2 <- Sys.time()\n  print(paste('Processing MOdel: ',p.max,'; Time:',difftime(t2,t1,units='mins'),' mins.'))\n  ##Evaluate results\n  Eg <- df$p_postmean*df$n\n  Og <- df$g\n  EO <- sum(Og-Eg)\n  ERR[i] <- EO\n}\n\n\np.opt <- p.vec[which.min(abs(ERR))]   #find value of optimal p.max\n## Save the model error file\nsave(list=c('ERR','p.opt'),file=paste(yr,'_pmax_error.RData',sep=''))\n\n",
+    "created" : 1519163773058.000,
+    "dirty" : true,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "684881357",
+    "id" : "A9AE0E12",
+    "lastKnownWriteTime" : 1518439715,
+    "last_content_update" : 1519163941598,
+    "path" : "D:/ESPN_data/R/ProcessNHLmodel.r",
+    "project_path" : null,
+    "properties" : {
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}
