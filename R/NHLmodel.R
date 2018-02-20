@@ -29,7 +29,7 @@
 # This model should be adjusted to allow for testing of alterntive models.
 NHLmodel <- function(x,ngibbs,burnin,p.max,inits,outfile){
   #-----------------------------------------------
-  # Format the data
+  # Format the data - needs to be simplified 
   #-----------------------------------------------
   mx = 89-25+1    #number of locations in x dimension
   my = 1+42+42    #number of locations in y dimension
