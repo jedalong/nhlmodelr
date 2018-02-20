@@ -8,7 +8,7 @@
 #' @details
 #'  Will be expanded later on.
 #'
-#' @param x a dataframe, specifically, ouput from the function \code{shots2model}.
+#' @param x a dataframe, specifically, output from the function \code{shots2model}.
 #' @param ngibbs numeric, number of Gibbs samples to run the model for.
 #' @param burnin numeric, number of Gibbs samples to discard as burn-in.
 #' @param p.max numeric, tuning parameter indicating the maximum probability value at the goal (should be between 0 and 1).
@@ -29,14 +29,14 @@
 # This model should be adjusted to allow for testing of alterntive models.
 NHLmodel <- function(x,ngibbs,burnin,p.max,inits,outfile){
   #-----------------------------------------------
-  # Format the data - needs to be simplified 
+  # Format the data - needs to be simplified
   #-----------------------------------------------
   mx = 89-25+1    #number of locations in x dimension
   my = 1+42+42    #number of locations in y dimension
   m = mx*my
   df <- expand.grid(x=1:mx,y=1:my)
-  df$oldx <- x[,2]
-  df$oldy <- x[,3]
+  df$oldx <- x[,1]
+  df$oldy <- x[,2]
   df$newx <- df$oldx + 89
   df$newy <- df$oldy
   df$rad <- sqrt((df$newx)^2+(df$newy)^2)
@@ -50,14 +50,14 @@ NHLmodel <- function(x,ngibbs,burnin,p.max,inits,outfile){
     }
   }
   df$index <- (df$y-1)*mx+df$x
-  df$n <- x[,5]
-  df$g <- x[,4]
+  df$n <- x[,4]
+  df$g <- x[,3]
   #------------------------------------------
-  
+
   #Other parameters
   p <- inits  #Initial values
   w <- 3   #Size of spatial neighbourhood, not sure why we would ever change this..
-  
+
   #variables for watching the draws from the posterior
   post.p <- matrix(nrow=m,ncol=ngibbs)
   post.upp <- matrix(nrow=m,ncol=ngibbs)
@@ -69,8 +69,8 @@ NHLmodel <- function(x,ngibbs,burnin,p.max,inits,outfile){
   lower <- p
   upper.ind <- upper
   lower.ind <- lower
-  
-  
+
+
   #====================================================================
   # Main Functions
   #====================================================================
@@ -92,7 +92,7 @@ NHLmodel <- function(x,ngibbs,burnin,p.max,inits,outfile){
     #if num goals equals num of shots
     if ( (x != 0) && (x == n) ){ ccbeta = ((p_upper**a-p_lower**a)*u+p_lower**a)**(1/a) }
     #if num goals < num shots
-    if ( (x != 0) && (x != n) ){            
+    if ( (x != 0) && (x != n) ){
       temp <- x/n
       if ( temp < p_lower ){ temp <- p_lower }
       if ( temp > p_upper ){ temp <- p_upper }
@@ -111,25 +111,25 @@ NHLmodel <- function(x,ngibbs,burnin,p.max,inits,outfile){
   }
   #--------------------------------------------------------------------
   #### Function deriving the index list of a wxw (i.e. 3x3) neighbourhood around each locaiton.
-  # This is just to save processing time later on. 
+  # This is just to save processing time later on.
   bounds <- function(index,w,xydf){
     w<- trunc(w/2)
     x <- xydf$x[index]
     y <- xydf$y[index]
     x.range <- (x-w):(x+w)
     y.range <- (y-w):(y+w)
-    
+
     indo <- which(xydf$x %in% x.range & xydf$y %in% y.range)
     ind.k <- xydf$index[indo]
     ind.i <- which(ind.k == index)
     ind.k <- ind.k[-ind.i]
-    
+
     return(ind.k)
   }
   index.list <- sapply(df$index,bounds,w=w, xydf=df[,c('index','x','y')])
   #---------------------------------------------------------------------
   #=====================================================================
-  
+
   # Gibbs sampling: the current shooting location corresponds to index=1,...,m.
   for (igibbs in 1:ngibbs) {
     # Loop to derive upper and lower limits (p_U and p_L).
@@ -141,10 +141,10 @@ NHLmodel <- function(x,ngibbs,burnin,p.max,inits,outfile){
       #Constrain based on rad (distance) and theta (shot angle)
       #iU <- which(df$rad[win] < df$rad[jj] & df$theta[win] <= df$theta[jj])
       #iL <- which(df$rad[win] > df$rad[jj] & df$theta[win] >= df$theta[jj])
-      
+
       #------- This is the area where we are having some confusion -----------------
       #Below, I keep switching the min and max, min for upper max for lower is how Tim envisioned it
-      # Having max for upper and min for lower seems to produce the more realistic shapes, but may 
+      # Having max for upper and min for lower seems to produce the more realistic shapes, but may
       #    not be as appropriate.
       #     if(length(iU) > 0){
       #       upper[jj] <- min(p[win[iU]])
@@ -166,9 +166,9 @@ NHLmodel <- function(x,ngibbs,burnin,p.max,inits,outfile){
         #store the index
         lower.ind[jj] <- win[which.min(p[win[iL]])]
       }
-      
+
       #-----------------------------------------------------------------------------
-      
+
       #constrain p_lower and p_upper in certain locations, manually set p_L = 0 for certain locations
       if (df$newy[jj] == -42){lower[jj] <- 0}   #p_L along bottom boards = 0
       if (df$newy[jj] == 42){lower[jj] <- 0}    #p_L along top boards = 0
@@ -180,7 +180,7 @@ NHLmodel <- function(x,ngibbs,burnin,p.max,inits,outfile){
     # Note: Below I use an 'apply' function which essentially parralellizes the Gibbs sampling across space. This makes the current round of Gibbs sampling dependent only on the previous round, and not partially dependent on the current round. I'm not sure if this is appropriate or not, but it is faster computationally.
     p. <- mapply(cbeta, lower, upper, df$g, df$n)
     #----------------------------------------------------------------------------------------------
-    
+
     #keep the draws and upper and lower constraints for later viewing
     post.p[,igibbs] <- p.
     post.upp[,igibbs] <- upper
@@ -190,16 +190,16 @@ NHLmodel <- function(x,ngibbs,burnin,p.max,inits,outfile){
     #update p
     p <- p.
   }
-  
+
   ##Summarizing
   p.mat <- post.p[,(burnin+1):ngibbs]
   df$p_postmean <- apply(p.mat,1,sum)/(ngibbs-burnin)
   df$p_postvar <- apply(p.mat,1,var)
-  
+
   #save results
   save.list <- c('df','post.p','post.upp','post.low','post.low.ind','post.upp.ind','burnin','ngibbs')
   save(list=save.list,file=outfile)
-  
+
   return(df)
 }
 
