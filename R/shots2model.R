@@ -7,6 +7,8 @@
 #'
 #' @details
 #'  Will be expanded later on.
+#'  - Automatically removes penalty shots and empty net situations.
+#'  - Currently only considers reg. season games, could be updated.
 #'
 #' @param shots a dataframe, specifically, a shots data frame downloaded from the package \code{nhlmodelr}.
 #'
@@ -22,6 +24,12 @@
 # ---- End of roxygen documentation ----
 
 shots2model <- function(shots){
+  
+  #### Subsetting shots - mightneed to be updated or set as an option:
+  shots <- subset(shots, Goalie == 901)    #remove EN and Penalty Shots
+  shots <- subset(shots, ShotDistFt < 90)  #remove 'long' shots that get rotated from far end
+  shots <- subset(shots, PreRegPost ==2)   #Only consider regular season shots for now
+  
   #------------------------------------------------------------------
   gls <- subset(shots,PLAYID == 505)
   svs <- subset(shots,PLAYID == 506)
