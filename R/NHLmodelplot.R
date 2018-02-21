@@ -126,7 +126,7 @@ NHLmodelplot <- function(model,plot='shots'){
   # plotting all shots
   if (plot =='shots'){
     for (i in 1:dim(model)[1]){
-      temp <- jitter(model$oldy[i],model$oldx[i],model$n[i],cs)   
+      temp <- jitter(model$oldy[i],model$oldx[i],model$n[i],0.5)   
       points(temp$x,temp$y,cex=0.05,pch=19)
     }
   }
@@ -134,7 +134,7 @@ NHLmodelplot <- function(model,plot='shots'){
   #Plotting goals
   if (plot == 'goals') {
     for (i in 1:dim(model)[1]){
-      temp <- jitter(model$oldy[i],model$oldx[i],model$g[i],cs)   
+      temp <- jitter(model$oldy[i],model$oldx[i],model$g[i],0.5)   
       points(temp$x,temp$y,cex=0.05,pch=19)
     }
   }
