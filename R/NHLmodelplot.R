@@ -9,7 +9,7 @@
 #'  Will be expanded later on.
 #'
 #' @param model a dataframe, specifically, ouput from the function \code{NHLmodel}.
-#' @param plot character, what to plot; one of (\code{'shots','goals','postmean','postvar'}).
+#' @param plot character, what to plot; one of (\code{'shots','goals','postmean','postvar','none'}). If none is given just the rink outline is plotted.
 #'
 #' @return
 #'  A half-rink plot of shots or goals (as points) or posterior mean or variance (as a surface).
@@ -21,7 +21,7 @@
 #' @export
 #
 # ---- End of roxygen documentation ----
-NHLmodelplot <- function(model,plot='shots'){
+NHLmodelplot <- function(model,plot='none'){
   ##############################################################################
   #plotting elements for the rink proper.
   
