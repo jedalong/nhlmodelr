@@ -77,7 +77,7 @@ goalies <- function(model,shots){
   goalCGP$SPCT <- goalCGP$SAVES / goalCGP$SHOTS
   goalCGP$eSPCT <- goalCGP$Es/goalCGP$SHOTS
   goalCGP$dSPCT <- goalCGP$SPCT - goalCGP$eSPCT
-  goalCGP$AdjSPCT <- goalCGP$SPCT + (goalCGP$SPCT - goalCGP$eSPCT)
+  goalCGP$AdjSPCT <- goalCGP$SPCT * (goalCGP$SPCT / goalCGP$eSPCT)
   return(goalCGP)
 }
 
