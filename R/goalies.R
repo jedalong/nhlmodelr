@@ -23,7 +23,7 @@
 #
 # ---- End of roxygen documentation ----
 #Function to Process Goalie CGP Statistics
-goalies <- function(model,shots,games){
+goalies <- function(model,shots){
   #Goalie Database
   goalID <- unique(shots$GOALIE.ID,na.rm=T)
   
@@ -63,11 +63,14 @@ goalies <- function(model,shots,games){
     goalCGP$Es[i] <- sum((1-xy$pi)*xy$ni)
     
   }
-  #Add Team Abbreviations - can we simplify this and do this earlier?
-  for (i in 1:30){
-    ind <- which(goalCGP$TEAMID==i)
-    goalCGP$TEAMABBR[ind] <- as.character(games$V25[which(games$V22 == i)[1]]) #Get Team Name
+  
+  #Add Team Abbreviations
+  data(teamInfo)
+  for (i in 1:30){                  #Vegas will be 31
+    ind <- which(plyrCGP$TEAMID==i)
+    goalCGP$TEAMABBR[ind] <- teamInfo$Abbr[i] #Get Team Name Abbreviation
   }
+
   
   goalCGP$GD <- goalCGP$GOALS - goalCGP$Eg
   goalCGP$CHI2 <- (goalCGP$GOALS-goalCGP$Eg)^2/goalCGP$Eg * sign(goalCGP$GOALS-goalCGP$Eg)

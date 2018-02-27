@@ -23,7 +23,7 @@
 #
 # ---- End of roxygen documentation ----
 #Function to Process Player CGP Statistics
-players <- function(model,shots,games){
+players <- function(model,shots){
   #Player Database
   plyrID <- unique(shots$PLYR1.ID)
   
@@ -59,9 +59,10 @@ players <- function(model,shots,games){
     plyrCGP$Eg[i] <- sum(xy$ni * xy$pi)
   }
   #Add Team Abbreviations
+  data(teamInfo)
   for (i in 1:30){
     ind <- which(plyrCGP$TEAMID==i)
-    plyrCGP$TEAMABBR[ind] <- as.character(games$V25[which(games$V22 == i)[1]]) #Get Team Name
+    plyrCGP$TEAMABBR[ind] <- teamInfo$Abbr[i] #Get Team Name Abbreviation
   }
   
   plyrCGP$GD <- plyrCGP$GOALS - plyrCGP$Eg

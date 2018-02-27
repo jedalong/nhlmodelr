@@ -25,15 +25,15 @@
 #Function to Process Team CGP Statistics
 teams <- function(model,shots){
   
-  teamCGP <- data(teamInfo)
-  teamCGP$Goals <- 0
-  teamCGP$Shots <- 0
-  teamCGP$Eg <-0
-  teamCGP $GD <- 0
+  data(teamInfo)
+  teamInfo$Goals <- 0
+  teamInfo$Shots <- 0
+  teamInfo$Eg <-0
+  teamInfo $GD <- 0
   
   xx <- -89:-25
   yy <- -42:42
-  for (i in 1:30){                           
+  for (i in 1:30){                       #Vegas will be 31    
     shts <- subset(shots,TeamID == i)
     shts <- subset(shts, Goalie == 901) #No EN or Penalty Shots
     gls <- subset(shts,PLAYID == 505)
@@ -57,12 +57,12 @@ teams <- function(model,shots){
       xy$ni[j] <- n.g + n.s #+ n.m + n.b
     }
     
-    teamCGP$Goals[i] <- sum(xy$xi)
-    teamCGP$Shots[i] <- sum(xy$ni)
-    teamCGP$Eg[i] <- sum(xy$ni * xy$pi)
+    teamInfo$Goals[i] <- sum(xy$xi)
+    teamInfo$Shots[i] <- sum(xy$ni)
+    teamInfo$Eg[i] <- sum(xy$ni * xy$pi)
     
   }
   
-  teamCGP$GD<- teamCGP$Goals - teamCGP$Eg
-  return(teamCGP)
+  teamInfo$GD<- teamInfo$Goals - teamInfo$Eg
+  return(teamInfo)
 }
