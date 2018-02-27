@@ -67,7 +67,7 @@ goalies <- function(model,shots){
   #Add Team Abbreviations
   data(teamInfo)
   for (i in 1:30){                  #Vegas will be 31
-    ind <- which(plyrCGP$TEAMID==i)
+    ind <- which(goalCGP$TEAMID==i)
     goalCGP$TEAMABBR[ind] <- teamInfo$Abbr[i] #Get Team Name Abbreviation
   }
 
