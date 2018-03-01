@@ -64,16 +64,18 @@ Their are a number of plotting functions available. We can plot the raw shots da
 ```{r}
 NHLmodelplot(df,'shots')
 NHLmodelplot(df,'goals')
-NHLmodelplot(df,'postmean')
-NHLmodelplot(df,'postvar')
+#NHLmodelplot(df,'postmean')
+#NHLmodelplot(df,'postvar')
 ```
 
 We can also compute advanced team, player, and goaltender spatially adjusted scoring (and save percentage) statistics.
 
 ```{r}
-##### these can also take a bit of time ######
-teamdb <- teams(df,shots20112012)
-playerdb <- players(df,shots20112012)
-goaliedb <- goalies(df,shots20112012)
-head(goaliedb)
+#==== Not Run ====
+# teamdb <- teams(df,shots20112012)
+# playerdb <- players(df,shots20112012)
+# goaliedb <- goalies(df,shots20112012)
+#====
 ```
+
+--- End ---
