@@ -1,0 +1,79 @@
+---
+output:
+  md_document:
+    variant: markdown_github
+---
+
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+```{r, echo = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>",
+  fig.path = "README-"
+)
+```
+
+
+## nhlmodelr
+
+###Spatial Modelling of NHL Shot Location Data
+
+Access pre-formatted NHL shot location data and implement spatially explicit models of NHL goal scoring probability. Advanced team, player, and goaltender statistics can be automatically calculated.
+
+### Installation
+
+```{r installation, eval = FALSE}
+devtools::install_github("jedalong/nhlmodelr")
+```
+  
+### Quick demo
+
+Load  in some data (2011-12 season) and take a look at the structure.
+
+```{r}
+library(nhlmodelr)
+data(shots20112012) 
+head(shots20112012)
+summary(shots20112012)
+```
+
+Next, format the shots for the spatial model by spatially pooling all the shots to the 5525 unique locations in the offensive zone.
+
+```{r}
+modshots <- shots2model(shots20112012)
+head(modshots)
+```
+
+Set up parameters for the spatial model. First, we need to set the number of Gibbs samples for the MCMC chain and the burn-in. We also need to set-up initial values for each location (here we use random values between 0 and 1). The parameter p.max is the tuning parameter, which is the maximum probability of scoring a goal (in the centre of the goal). Finally, the output filename for storing output \*.RData file needs to be specified (the model produces a single \*.RData file with 8 objects, see  ?NHLmodelr).
+
+```{r}
+ngibbs <- 100
+nburnin <- 50
+p.max <- 0.29
+inits <- runif(dim(modshots)[1],0,1)
+outfile <- 'C:/Workspace/NHLModelOutput.RData'
+
+#Model Run - Takes a couple of minutes
+df <- NHLmodel(modshots,ngibbs,nburnin,p.max,inits,outfile)
+head(df)
+```
+
+Their are a number of plotting functions available. We can plot the raw shots data, only the goals, the posterior mean, and the posterior variance.
+
+```{r}
+NHLmodelplot(df,'shots')
+NHLmodelplot(df,'goals')
+NHLmodelplot(df,'postmean')
+NHLmodelplot(df,'postvar')
+```
+
+We can also compute advanced team, player, and goaltender spatially adjusted scoring (and save percentage) statistics.
+
+```{r}
+##### these can also take a bit of time ######
+teamdb <- teams(df,shots20112012)
+playerdb <- players(df,shots20112012)
+goaliedb <- goalies(df,shots20112012)
+head(goaliedb)
+```
