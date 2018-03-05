@@ -7,9 +7,9 @@ output: github_document
 
 
 
-# nhlmodelr
+# nhlmodelr: Spatial Modelling of NHL Shot Location Data
 
-##Spatial Modelling of NHL Shot Location Data
+
 
 Access pre-formatted NHL shot location data and implement spatially explicit models of NHL goal scoring probability. Advanced team, player, and goaltender statistics can be automatically calculated.
 
