@@ -4,7 +4,7 @@
 \alias{goalies}
 \title{Goalie save percentage analysis}
 \usage{
-goalies(model, shots, games)
+goalies(model, shots)
 }
 \arguments{
 \item{model}{a dataframe, specifically, ouput from the function \code{NHLmodel}.}
@@ -22,4 +22,3 @@ Calculate spatially adjusted goalie save percentage statistics using spatially e
 \details{
 Will be expanded later on.
 }
-

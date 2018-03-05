@@ -4,12 +4,12 @@
 \alias{NHLmodelplot}
 \title{Plot NHL model results}
 \usage{
-NHLmodelplot(model, plot = "shots")
+NHLmodelplot(model, plot = "none")
 }
 \arguments{
 \item{model}{a dataframe, specifically, ouput from the function \code{NHLmodel}.}
 
-\item{plot}{character, what to plot; one of (\code{'shots','goals','postmean','postvar'}).}
+\item{plot}{character, what to plot; one of (\code{'shots','goals','postmean','postvar','none'}). If none is given just the rink outline is plotted.}
 }
 \value{
 A half-rink plot of shots or goals (as points) or posterior mean or variance (as a surface).
@@ -20,4 +20,3 @@ Very basic plotting function for outputs from the spatial model of NHL goal scor
 \details{
 Will be expanded later on.
 }
-

@@ -7,7 +7,7 @@
 NHLmodel(x, ngibbs, burnin, p.max, inits, outfile)
 }
 \arguments{
-\item{x}{a dataframe, specifically, ouput from the function \code{shots2model}.}
+\item{x}{a dataframe, specifically, output from the function \code{shots2model}.}
 
 \item{ngibbs}{numeric, number of Gibbs samples to run the model for.}
 
@@ -28,4 +28,3 @@ Calculate spatial probability of NHL goal scoring based on shot location data.
 \details{
 Will be expanded later on.
 }
-

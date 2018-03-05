@@ -12,4 +12,3 @@ Team information data to be linked to team ID.
 Basic team information data, really to be used as an internal look up table for certain functions.
 }
 \keyword{datasets}
-

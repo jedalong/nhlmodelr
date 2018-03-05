@@ -20,4 +20,3 @@ Will be expanded later on.
  - Automatically removes penalty shots and empty net situations.
  - Currently only considers reg. season games, could be updated.
 }
-

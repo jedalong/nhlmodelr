@@ -144,7 +144,6 @@ NHLmodelplot <- function(model,plot='none'){
   yy <- unique(model$oldy)
   #col=rev(heat.colors(100,alpha=0.7))
   col=topo.colors(100,alpha=0.7)
-  library(fields)
   
   #Plotting Posterior Mean
   if (plot == 'postmean'){

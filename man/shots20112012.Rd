@@ -29,4 +29,3 @@ The NHL shot location data are stored as a dataframe with the following columns:
 - GameID - ESPN.com Game ID
 }
 \keyword{datasets}
-

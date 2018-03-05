@@ -20,4 +20,3 @@ Calculate spatially adjusted team-based shooting  statistics using spatially exp
 \details{
 Will be expanded later on.
 }
-

@@ -4,7 +4,7 @@
 \alias{players}
 \title{Player shooting analysis}
 \usage{
-players(model, shots, games)
+players(model, shots)
 }
 \arguments{
 \item{model}{a dataframe, specifically, ouput from the function \code{NHLmodel}.}
@@ -22,4 +22,3 @@ Calculate spatially adjusted player-based shooting  statistics using spatially e
 \details{
 Will be expanded later on.
 }
-
