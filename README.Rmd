@@ -21,7 +21,7 @@ Access pre-formatted NHL shot location data and implement spatially explicit mod
 
 ## Installation
 
-```{r installation, eval = FALSE}
+```{r gh-installation, eval = TRUE, message = FALSE, warning = FALSE}
 devtools::install_github("jedalong/nhlmodelr")
 ```
   

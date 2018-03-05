@@ -27,7 +27,6 @@ Load  in some data (2011-12 season) and take a look at the structure.
 
 ```r
 library(nhlmodelr)
-#> Error in library(nhlmodelr): there is no package called 'nhlmodelr'
 data(shots20112012) 
 head(shots20112012)
 #>   PLAYID PLYR1.ID       PlyrName PlyrPos TeamID TeamStrength ShotType
@@ -99,9 +98,14 @@ Next, format the shots for the spatial model by spatially pooling all the shots 
 
 ```r
 modshots <- shots2model(shots20112012)
-#> Error in shots2model(shots20112012): could not find function "shots2model"
 head(modshots)
-#> Error in head(modshots): object 'modshots' not found
+#>     x   y xi ni
+#> 1 -89 -42  0  0
+#> 2 -88 -42  0  0
+#> 3 -87 -42  0  0
+#> 4 -86 -42  0  0
+#> 5 -85 -42  0  0
+#> 6 -84 -42  0  0
 ```
 
 Set up parameters for the spatial model. First, we need to set the number of Gibbs samples for the MCMC chain and the burn-in. We also need to set-up initial values for each location (here we use random values between 0 and 1). The parameter p.max is the tuning parameter, which is the maximum probability of scoring a goal (in the centre of the goal). Finally, the output filename for storing output \*.RData file needs to be specified (the model produces a single \*.RData file with 8 objects, see  ?NHLmodelr).
@@ -112,20 +116,25 @@ ngibbs <- 100
 nburnin <- 50
 p.max <- 0.29
 inits <- runif(dim(modshots)[1],0,1)
-#> Error in runif(dim(modshots)[1], 0, 1): object 'modshots' not found
 outfile <- 'C:/Workspace/NHLModelOutput.RData'
 
 #Model Run - Takes a couple of minutes
 df <- NHLmodel(modshots,ngibbs,nburnin,p.max,inits,outfile)
-#> Error in NHLmodel(modshots, ngibbs, nburnin, p.max, inits, outfile): could not find function "NHLmodel"
 head(df)
-#>                                               
-#> 1 function (x, df1, df2, ncp, log = FALSE)    
-#> 2 {                                           
-#> 3     if (missing(ncp))                       
-#> 4         .Call(C_df, x, df1, df2, log)       
-#> 5     else .Call(C_dnf, x, df1, df2, ncp, log)
-#> 6 }
+#>   x y oldx oldy newx newy      rad    theta index n g p_postmean
+#> 1 1 1  -89  -42    0  -42 42.00000 1.570796     1 0 0 0.01005204
+#> 2 2 1  -88  -42    1  -42 42.01190 1.546991     2 0 0 0.01400308
+#> 3 3 1  -87  -42    2  -42 42.04759 1.523213     3 0 0 0.01445589
+#> 4 4 1  -86  -42    3  -42 42.10701 1.499489     4 0 0 0.01666263
+#> 5 5 1  -85  -42    4  -42 42.19005 1.475845     5 0 0 0.01495928
+#> 6 6 1  -84  -42    5  -42 42.29657 1.452306     6 0 0 0.01395675
+#>      p_postvar
+#> 1 5.903620e-05
+#> 2 7.315145e-05
+#> 3 9.018998e-05
+#> 4 1.636021e-04
+#> 5 1.093196e-04
+#> 6 1.177373e-04
 ```
 
 Their are a number of plotting functions available. We can plot the raw shots data, only the goals, the posterior mean, and the posterior variance.
@@ -133,9 +142,19 @@ Their are a number of plotting functions available. We can plot the raw shots da
 
 ```r
 NHLmodelplot(df,'shots')
-#> Error in NHLmodelplot(df, "shots"): could not find function "NHLmodelplot"
+#> Error in library(fields): there is no package called 'fields'
+```
+
+![plot of chunk unnamed-chunk-5](README-unnamed-chunk-5-1.png)
+
+```r
 NHLmodelplot(df,'goals')
-#> Error in NHLmodelplot(df, "goals"): could not find function "NHLmodelplot"
+#> Error in library(fields): there is no package called 'fields'
+```
+
+![plot of chunk unnamed-chunk-5](README-unnamed-chunk-5-2.png)
+
+```r
 #NHLmodelplot(df,'postmean')
 #NHLmodelplot(df,'postvar')
 ```
