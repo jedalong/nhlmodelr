@@ -57,13 +57,13 @@ df <- NHLmodel(modshots,ngibbs,nburnin,p.max,inits,outfile)
 head(df)
 ```
 
-Their are a number of plotting functions available. We can plot the raw shots data, only the goals, the posterior mean, and the posterior variance.
+Their are a number of plotting functions available. We can plot the raw shots data, only the goals, the posterior mean, and the posterior variance. Note: The posterior mean and variance here are unrealistic as they are based on only 100 Gibbs samples from the MCMC run.
 
 ```{r}
 NHLmodelplot(df,'shots')
 NHLmodelplot(df,'goals')
-#NHLmodelplot(df,'postmean')
-#NHLmodelplot(df,'postvar')
+NHLmodelplot(df,'postmean')
+NHLmodelplot(df,'postvar')
 ```
 
 We can also compute advanced team, player, and goaltender spatially adjusted scoring (and save percentage) statistics.

@@ -122,42 +122,47 @@ outfile <- 'C:/Workspace/NHLModelOutput.RData'
 df <- NHLmodel(modshots,ngibbs,nburnin,p.max,inits,outfile)
 head(df)
 #>   x y oldx oldy newx newy      rad    theta index n g p_postmean
-#> 1 1 1  -89  -42    0  -42 42.00000 1.570796     1 0 0 0.01163100
-#> 2 2 1  -88  -42    1  -42 42.01190 1.546991     2 0 0 0.01453071
-#> 3 3 1  -87  -42    2  -42 42.04759 1.523213     3 0 0 0.01816335
-#> 4 4 1  -86  -42    3  -42 42.10701 1.499489     4 0 0 0.01860230
-#> 5 5 1  -85  -42    4  -42 42.19005 1.475845     5 0 0 0.02204940
-#> 6 6 1  -84  -42    5  -42 42.29657 1.452306     6 0 0 0.01787452
+#> 1 1 1  -89  -42    0  -42 42.00000 1.570796     1 0 0 0.01132139
+#> 2 2 1  -88  -42    1  -42 42.01190 1.546991     2 0 0 0.01631660
+#> 3 3 1  -87  -42    2  -42 42.04759 1.523213     3 0 0 0.01599074
+#> 4 4 1  -86  -42    3  -42 42.10701 1.499489     4 0 0 0.01696423
+#> 5 5 1  -85  -42    4  -42 42.19005 1.475845     5 0 0 0.01598282
+#> 6 6 1  -84  -42    5  -42 42.29657 1.452306     6 0 0 0.02143530
 #>      p_postvar
-#> 1 0.0000976679
-#> 2 0.0001395667
-#> 3 0.0001332435
-#> 4 0.0001595242
-#> 5 0.0001829426
-#> 6 0.0001440043
+#> 1 1.133051e-04
+#> 2 1.449830e-04
+#> 3 9.757342e-05
+#> 4 1.591031e-04
+#> 5 1.384406e-04
+#> 6 2.437138e-04
 ```
 
-Their are a number of plotting functions available. We can plot the raw shots data, only the goals, the posterior mean, and the posterior variance.
+Their are a number of plotting functions available. We can plot the raw shots data, only the goals, the posterior mean, and the posterior variance. Note: The posterior mean and variance here are unrealistic as they are based on only 100 Gibbs samples from the MCMC run.
 
 
 ```r
 NHLmodelplot(df,'shots')
-#> Error in library(fields): there is no package called 'fields'
 ```
 
 ![plot of chunk unnamed-chunk-5](README-unnamed-chunk-5-1.png)
 
 ```r
 NHLmodelplot(df,'goals')
-#> Error in library(fields): there is no package called 'fields'
 ```
 
 ![plot of chunk unnamed-chunk-5](README-unnamed-chunk-5-2.png)
 
 ```r
-#NHLmodelplot(df,'postmean')
-#NHLmodelplot(df,'postvar')
+NHLmodelplot(df,'postmean')
 ```
+
+![plot of chunk unnamed-chunk-5](README-unnamed-chunk-5-3.png)
+
+```r
+NHLmodelplot(df,'postvar')
+```
+
+![plot of chunk unnamed-chunk-5](README-unnamed-chunk-5-4.png)
 
 We can also compute advanced team, player, and goaltender spatially adjusted scoring (and save percentage) statistics.
 

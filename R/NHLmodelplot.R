@@ -151,7 +151,7 @@ NHLmodelplot <- function(model,plot='none'){
     mlim <- c(0,max(mat,na.rm=T))
     mat <- t(mat)  #Transpose to rotate plot
     image(yy,xx,mat,zlim=mlim,col=col,add=T)
-    image.plot(legend.only=TRUE,zlim=mlim,col=col,legend.shrink=0.4,horizontal=F)
+    fields::image.plot(legend.only=TRUE,zlim=mlim,col=col,legend.shrink=0.4,horizontal=F)
     contour(yy,xx,mat,levels=c(0.05,0.1,0.15,0.2),add=TRUE)
   }
   
@@ -161,7 +161,7 @@ NHLmodelplot <- function(model,plot='none'){
     mlim <- c(0,max(mat,na.rm=T))
     mat <- t(mat)
     image(yy,xx,mat,zlim=mlim,col=col,add=T)
-    image.plot(legend.only=TRUE,zlim=mlim,col=col,legend.shrink=0.4,horizontal=F)
+    fields::image.plot(legend.only=TRUE,zlim=mlim,col=col,legend.shrink=0.4,horizontal=F)
     contour(yy,xx,mat,levels=c(0.05,0.1,0.15,0.2),add=TRUE)
   }
   

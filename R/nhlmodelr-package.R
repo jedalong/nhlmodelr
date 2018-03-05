@@ -11,7 +11,6 @@
 #' @author Jed Long
 # @references
 #'
-#' @import fields
 #' @docType package
 #' @name nhlmodelr-package
 NULL
