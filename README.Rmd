@@ -1,7 +1,5 @@
 ---
-output:
-  md_document:
-    variant: markdown_github
+output: github_document
 ---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
@@ -15,19 +13,19 @@ knitr::opts_chunk$set(
 ```
 
 
-## nhlmodelr
+# nhlmodelr
 
-###Spatial Modelling of NHL Shot Location Data
+##Spatial Modelling of NHL Shot Location Data
 
 Access pre-formatted NHL shot location data and implement spatially explicit models of NHL goal scoring probability. Advanced team, player, and goaltender statistics can be automatically calculated.
 
-### Installation
+## Installation
 
 ```{r installation, eval = FALSE}
 devtools::install_github("jedalong/nhlmodelr")
 ```
   
-### Quick demo
+## Quick demo
 
 Load  in some data (2011-12 season) and take a look at the structure.
 
