@@ -28,7 +28,7 @@ players <- function(model,shots){
   plyrID <- unique(shots$PLYR1.ID)
   
   #Player Analysis
-  plyrCGP <- data.frame(ID=plyrID,NAME=NA,POS=NA,TEAMID=NA,TEAMABBR=NA,GOALS=0,SHOTS=0,Eg=0,GD=0,stringsAsFactors=FALSE)
+  plyrCGP <- data.frame(ID=plyrID,NAME=NA,POS=NA,TEAMID=NA,TEAMABBR=NA,Goals=0,Shots=0,Eg=0,stringsAsFactors=FALSE)
   xx <- -89:-25
   yy <- -42:42
   xy <- expand.grid(x=xx,y=yy)
@@ -54,8 +54,8 @@ players <- function(model,shots){
       xy$xi[j] <- n.g
       xy$ni[j] <- n.g + n.s #+n.m + n.b
     }
-    plyrCGP$GOALS[i] <- sum(xy$xi)
-    plyrCGP$SHOTS[i] <- sum(xy$ni)
+    plyrCGP$Goals[i] <- sum(xy$xi)
+    plyrCGP$Shots[i] <- sum(xy$ni)
     plyrCGP$Eg[i] <- sum(xy$ni * xy$pi)
   }
   #Add Team Abbreviations
@@ -65,9 +65,10 @@ players <- function(model,shots){
     plyrCGP$TEAMABBR[ind] <- teamInfo$Abbr[i] #Get Team Name Abbreviation
   }
   
-  plyrCGP$GD <- plyrCGP$GOALS - plyrCGP$Eg
-  plyrCGP$CHI2 <- (plyrCGP$GOALS-plyrCGP$Eg)^2/plyrCGP$Eg * sign(plyrCGP$GOALS-plyrCGP$Eg)
-  plyrCGP$SPCT <- (plyrCGP$GOALS / plyrCGP$SHOTS)*100
+  plyrCGP$GD <- plyrCGP$Goals - plyrCGP$Eg
+  plyrCGP$ShP <- (plyrCGP$Goals / plyrCGP$Shots) * 100
+  plyrCGP$dShP <- plyrCGP$GD / plyrCGP$Shots * 100
+  plyrCGP$GP <- plyrCGP$GD / plyrCGP$Eg
   
   return(plyrCGP)
 }

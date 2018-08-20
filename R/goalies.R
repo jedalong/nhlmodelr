@@ -10,7 +10,6 @@
 #'
 #' @param model a dataframe, specifically, ouput from the function \code{NHLmodel}.
 #' @param shots the raw data shots file that was used as input into the function \code{shots2model}.
-#' @param games the raw game data associated with \code{shots} (see details).
 #'
 #' @return
 #'  The function returns a dataframe with spatially adjusted team shooting statistics.
@@ -28,7 +27,7 @@ goalies <- function(model,shots){
   goalID <- unique(shots$GOALIE.ID,na.rm=T)
   
   #Goalie Analysis
-  goalCGP <- data.frame(ID=goalID,NAME=NA,POS=NA,TEAMID=NA,TEAMABBR=NA,GOALS=0,SAVES=0,SHOTS=0,Eg=0,Es=0,GD=0,stringsAsFactors=FALSE)
+  goalCGP <- data.frame(ID=goalID,NAME=NA,POS=NA,TEAMID=NA,TEAMABBR=NA,Shots=0,Goals=0,Saves=0,Eg=0,Es=0,stringsAsFactors=FALSE)
   xx <- -89:-25
   yy <- -42:42
   xy <- expand.grid(x=xx,y=yy)
@@ -55,10 +54,9 @@ goalies <- function(model,shots){
       xy$ni[j] <- n.g + n.s #+n.m + n.b
       xy$si[j] <- n.s
     }
-    
-    goalCGP$GOALS[i] <- sum(xy$xi)
-    goalCGP$SAVES[i] <- sum(xy$si)
-    goalCGP$SHOTS[i] <- sum(xy$ni)
+    goalCGP$Shots[i] <- sum(xy$ni)
+    goalCGP$Goals[i] <- sum(xy$xi)
+    goalCGP$Saves[i] <- sum(xy$si)
     goalCGP$Eg[i] <- sum(xy$ni * xy$pi)
     goalCGP$Es[i] <- sum((1-xy$pi)*xy$ni)
     
@@ -72,12 +70,11 @@ goalies <- function(model,shots){
   }
 
   
-  goalCGP$GD <- goalCGP$GOALS - goalCGP$Eg
-  goalCGP$CHI2 <- (goalCGP$GOALS-goalCGP$Eg)^2/goalCGP$Eg * sign(goalCGP$GOALS-goalCGP$Eg)
-  goalCGP$SPCT <- goalCGP$SAVES / goalCGP$SHOTS
-  goalCGP$eSPCT <- goalCGP$Es/goalCGP$SHOTS
-  goalCGP$dSPCT <- goalCGP$SPCT - goalCGP$eSPCT
-  goalCGP$AdjSPCT <- goalCGP$SPCT * (goalCGP$SPCT / goalCGP$eSPCT)
+  goalCGP$SD <- goalCGP$Saves - goalCGP$Es
+  goalCGP$SvP <- goalCGP$Saves / goalCGP$Shots * 100
+  goalCGP$ESvP <- goalCGP$Es / goalCGP$Shots * 100
+  goalCGP$dSvP <- goalCGP$SvP - goalCGP$ESvP
+  goalCGP$SP <- (goalCGP$Saves - goalCGP$Es) / goalCGP$Es
   return(goalCGP)
 }
 

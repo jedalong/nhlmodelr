@@ -29,7 +29,6 @@ teams <- function(model,shots){
   teamInfo$Goals <- 0
   teamInfo$Shots <- 0
   teamInfo$Eg <-0
-  teamInfo $GD <- 0
   
   xx <- -89:-25
   yy <- -42:42
@@ -63,6 +62,9 @@ teams <- function(model,shots){
     
   }
   
-  teamInfo$GD<- teamInfo$Goals - teamInfo$Eg
+  teamInfo$GD <- teamInfo$Goals - teamInfo$Eg
+  teamInfo$SPCT <- teamInfo$Goals / teamInfo$Shots * 100
+  teamInfo$adjSPCT <- teamInfo$GD / teamInfo$Shots * 100 
+  teamInfo$GP <- teamInfo$GD/teamInfo$Eg
   return(teamInfo)
 }

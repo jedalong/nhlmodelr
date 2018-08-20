@@ -25,17 +25,7 @@
 
 shots2model <- function(shots){
   
-  #### Subsetting shots - mightneed to be updated or set as an option:
-  shots <- subset(shots, Goalie == 901)    #remove EN and Penalty Shots
-  shots <- subset(shots, ShotDistFt < 90)  #remove 'long' shots that get rotated from far end
-  shots <- subset(shots, PreRegPost ==2)   #Only consider regular season shots for now
-  
-  #------------------------------------------------------------------
-  gls <- subset(shots,PLAYID == 505)
-  svs <- subset(shots,PLAYID == 506)
-  mis <- subset(shots,PLAYID == 507)
-  blk <- subset(shots,PLAYID == 508)       #should be no blks if using Goalie = 901
-  #------------------------------------------------------------------
+  #create
   xx <- -89:-25
   yy <- -42:42
   xy <- expand.grid(x=xx,y=yy)
@@ -44,16 +34,14 @@ shots2model <- function(shots){
   
   ## Spatial Pool shots to model format.
   for (i in 1:dim(xy)[1]){
-    xi <- xy$x[i]
-    yi <- xy$y[i]
+    loc <- shots[shots$jX==xy$x[i] & shots$jY==xy$y[i],]
     
-    n.g <- length(which(gls$x==xi & gls$y==yi))
-    n.s <- length(which(svs$x==xi & svs$y==yi)) 
-    n.m <- length(which(mis$x==xi & mis$y==yi))
-    n.b <- length(which(blk$x==xi & blk$y==yi))
-    
+    n.g <- length(which(loc$event == 'GOAL'))
+    n.s <- length(which(loc$event == 'SHOT')) 
+    n.m <- length(which(loc$event == 'MISS')) 
+
     xy$xi[i] <- n.g
-    xy$ni[i] <- n.g + n.s #+ n.m     + n.b?
+    xy$ni[i] <- n.g + n.s #+ n.m   
   }
   return(xy)
 }
